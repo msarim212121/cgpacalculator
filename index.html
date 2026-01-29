@@ -3,316 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UET Lahore GPA Calculator | Premium Edition</title>
+    <title>GPA Matrix | shozixsarim Edition</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@400;700&display=swap');
         
         :root {
-            /* New Luxury Color Scheme */
-            --primary-gold: #fbbf24;
-            --dark-gold: #b45309;
-            --bg-obsidian: #020617;
-            --card-glass: rgba(30, 41, 59, 0.7);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-glow: rgba(251, 191, 36, 0.15);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --danger: #f43f5e;
+            --neon-mint: #00ffcc;
+            --cyber-purple: #bc13fe;
+            --deep-space: #050505;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --text-glow: 0 0 10px rgba(0, 255, 204, 0.5);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-obsidian);
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--deep-space);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(251, 191, 36, 0.05) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.05) 0px, transparent 50%);
-            color: var(--text-main);
+                radial-gradient(circle at 10% 20%, rgba(188, 19, 254, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 204, 0.1) 0%, transparent 40%);
+            color: #e0e0e0;
             min-height: 100vh;
-            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; position: relative; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 
-        /* Header Styling */
-        .header { text-align: center; margin-bottom: 4rem; }
-        .logo-box { 
-            width: 80px; height: 80px; 
-            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
-            border-radius: 20px; margin: 0 auto 1.5rem;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2.5rem; box-shadow: 0 10px 30px var(--accent-glow);
-        }
-        h1 { 
-            font-family: 'Outfit'; font-size: 3rem; font-weight: 800;
-            background: linear-gradient(to right, #fff, var(--primary-gold));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        header { text-align: center; margin-bottom: 3rem; }
+        
+        .logo-text {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: -2px;
+            background: linear-gradient(to right, var(--neon-mint), var(--cyber-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
-        /* Modern Tabs */
-        .tabs { 
-            display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem;
-            background: var(--card-glass); padding: 0.5rem; border-radius: 100px;
-            backdrop-filter: blur(10px); border: 1px solid var(--border-color);
+        .tabs {
+            display: flex; gap: 5px; background: rgba(255,255,255,0.05);
+            padding: 5px; border-radius: 12px; margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .tab-btn {
-            padding: 0.8rem 2rem; border: none; background: transparent;
-            color: var(--text-muted); font-weight: 600; cursor: pointer;
-            border-radius: 100px; transition: 0.3s;
+            flex: 1; padding: 12px; border: none; background: transparent;
+            color: #888; cursor: pointer; border-radius: 8px; font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .tab-btn.active { background: var(--primary-gold); color: var(--bg-obsidian); }
+        .tab-btn.active { 
+            background: rgba(0, 255, 204, 0.1); 
+            color: var(--neon-mint);
+            box-shadow: inset 0 0 15px rgba(0, 255, 204, 0.2);
+            border: 1px solid rgba(0, 255, 204, 0.3);
+        }
 
-        /* Main Grid */
-        .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; }
+        .content-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; }
+
         .card { 
-            background: var(--card-glass); backdrop-filter: blur(16px);
-            border-radius: 24px; padding: 2rem; border: 1px solid var(--border-color);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px; padding: 2rem;
+            position: relative; overflow: hidden;
         }
-        .card-title { font-family: 'Outfit'; font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
-
-        /* Form Elements */
-        .form-group { margin-bottom: 1.2rem; }
-        label { display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
-        input, select { 
-            width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color);
-            padding: 1rem; border-radius: 12px; color: white; outline: none; transition: 0.3s;
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-mint), transparent);
         }
-        input:focus { border-color: var(--primary-gold); box-shadow: 0 0 15px var(--accent-glow); }
 
-        /* Action Buttons */
-        .btn { 
-            width: 100%; padding: 1rem; border-radius: 12px; border: none; font-weight: 700;
-            cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        input, select {
+            width: 100%; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 14px; border-radius: 10px; color: white; margin-top: 8px;
+            outline: none; transition: 0.3s;
         }
-        .btn-gold { background: var(--primary-gold); color: var(--bg-obsidian); }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 5px 20px var(--accent-glow); }
-        .btn-outline { background: transparent; border: 1px solid var(--primary-gold); color: var(--primary-gold); margin-top: 1rem; }
+        input:focus { border-color: var(--neon-mint); box-shadow: 0 0 15px rgba(0, 255, 204, 0.2); }
 
-        /* Results Display */
-        .result-box { 
-            text-align: center; padding: 2.5rem; 
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), transparent);
-            border-radius: 20px; border: 1px dashed var(--primary-gold);
+        .btn {
+            width: 100%; padding: 14px; border-radius: 10px; border: none;
+            font-weight: 700; cursor: pointer; margin-top: 1.5rem;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
         }
-        .score { font-size: 4.5rem; font-weight: 800; color: var(--primary-gold); font-family: 'Outfit'; }
-        
-        /* List Styling */
-        .item-list { margin-top: 2rem; max-height: 300px; overflow-y: auto; }
-        .list-entry { 
-            background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 12px;
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;
+        .btn-neon { background: var(--neon-mint); color: black; }
+        .btn-neon:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 255, 204, 0.4); }
+
+        .result-display {
+            text-align: center; border: 2px solid rgba(188, 19, 254, 0.3);
+            border-radius: 100%; width: 220px; height: 220px; margin: 2rem auto;
+            display: flex; flex-direction: column; justify-content: center;
+            background: radial-gradient(circle, rgba(188, 19, 254, 0.1) 0%, transparent 70%);
         }
-        .remove-icon { color: var(--danger); cursor: pointer; font-size: 1.2rem; }
+        .gpa-num { font-size: 4rem; font-weight: 700; color: var(--neon-mint); text-shadow: var(--text-glow); }
 
-        /* Grade Table */
-        .grade-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        .grade-table th { text-align: left; padding: 1rem; border-bottom: 1px solid var(--border-color); color: var(--primary-gold); }
-        .grade-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px; background: rgba(255,255,255,0.03);
+            border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--cyber-purple);
+        }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        /* DEVELOPER FOOTER STYLE */
+        .dev-footer {
+            margin-top: 5rem; padding: 2rem; text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .dev-name {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700; font-size: 1.2rem;
+            color: var(--neon-mint); text-shadow: var(--text-glow);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.7; text-shadow: 0 0 5px var(--neon-mint); }
+            50% { opacity: 1; text-shadow: 0 0 20px var(--neon-mint); }
+            100% { opacity: 0.7; text-shadow: 0 0 5px var(--neon-mint); }
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .content-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header class="header">
-        <div class="logo-box">🎓</div>
-        <h1>UET Lahore Calculator</h1>
-        <p style="color: var(--text-muted)">Academic Performance Management System</p>
+    <header>
+        <div class="logo-text">UET MATRIX</div>
+        <p style="color: #666; letter-spacing: 3px; font-size: 0.8rem; margin-top: 10px;">VERSION 2.0 // CALCULATION ENGINE</p>
     </header>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('gpa', event)">Semester GPA</button>
-        <button class="tab-btn" onclick="switchTab('cgpa', event)">Cumulative CGPA</button>
-        <button class="tab-btn" onclick="switchTab('grades', event)">Grade Scale</button>
+        <button class="tab-btn active">SEMESTER GPA</button>
+        <button class="tab-btn">CUMULATIVE CGPA</button>
     </div>
 
-    <div id="gpa-tab" class="tab-content active">
-        <div class="content-grid">
-            <div class="card">
-                <h2 class="card-title"><span>📝</span> Course Entry</h2>
-                <div class="form-group">
-                    <label>Course Title</label>
-                    <input type="text" id="courseName" placeholder="e.g. Data Structures">
-                </div>
-                <div style="display: flex; gap: 1rem;">
-                    <div class="form-group" style="flex: 2;">
-                        <label>Obtained Grade</label>
-                        <select id="grade">
-                            <option value="4.0">A / A+ (4.0)</option>
-                            <option value="3.7">A- (3.7)</option>
-                            <option value="3.3">B+ (3.3)</option>
-                            <option value="3.0">B (3.0)</option>
-                            <option value="2.7">B- (2.7)</option>
-                            <option value="2.3">C+ (2.3)</option>
-                            <option value="2.0">C (2.0)</option>
-                            <option value="1.7">C- (1.7)</option>
-                            <option value="1.3">D+ (1.3)</option>
-                            <option value="1.0">D (1.0)</option>
-                            <option value="0">F (0.0)</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label>Credits</label>
-                        <input type="number" id="creditHours" placeholder="3">
-                    </div>
-                </div>
-                <button class="btn btn-gold" onclick="addCourse()">+ Add to List</button>
-                
-                <div class="item-list" id="courseList">
-                    </div>
-            </div>
-
-            <div class="card">
-                <h2 class="card-title"><span>🎯</span> Summary</h2>
-                <div id="gpaResult" class="result-box">
-                    <p style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Semester GPA</p>
-                    <div class="score" id="gpaValue">0.00</div>
-                    <p id="gpaStatus" style="color: var(--primary-gold); font-weight: 600;"></p>
-                </div>
-                <button class="btn btn-outline" onclick="calculateGPA()">Update Calculation</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="cgpa-tab" class="tab-content">
-        <div class="content-grid">
-            <div class="card">
-                <h2 class="card-title"><span>📅</span> Semester History</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="form-group">
-                        <label>GPA</label>
-                        <input type="number" id="semesterGPA" step="0.01" placeholder="3.80">
-                    </div>
-                    <div class="form-group">
-                        <label>Total Credits</label>
-                        <input type="number" id="semesterCredits" placeholder="18">
-                    </div>
-                </div>
-                <button class="btn btn-gold" onclick="addSemester()">Add Semester</button>
-                <div class="item-list" id="semesterList"></div>
-            </div>
-            <div class="card">
-                <h2 class="card-title"><span>🏆</span> Cumulative Result</h2>
-                <div class="result-box">
-                    <p style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Final CGPA</p>
-                    <div class="score" id="cgpaValue">0.00</div>
-                    <p id="cgpaStatus" style="color: var(--primary-gold); font-weight: 600;"></p>
-                </div>
-                <button class="btn btn-outline" onclick="calculateCGPA()">Generate Report</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="grades-tab" class="tab-content">
+    <div class="content-grid">
         <div class="card">
-            <h2 class="card-title">Official UET Grading Scheme</h2>
-            <table class="grade-table">
-                <thead>
-                    <tr><th>Grade</th><th>Points</th><th>Definition</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>A+ / A</td><td>4.0</td><td>Exceptional</td></tr>
-                    <tr><td>A-</td><td>3.7</td><td>Very Good</td></tr>
-                    <tr><td>B+</td><td>3.3</td><td>Good</td></tr>
-                    <tr><td>B</td><td>3.0</td><td>Above Average</td></tr>
-                    <tr><td>C</td><td>2.0</td><td>Satisfactory</td></tr>
-                    <tr><td>F</td><td>0.0</td><td>Fail</td></tr>
-                </tbody>
-            </table>
+            <h3 style="color: var(--neon-mint); margin-bottom: 20px;">// INPUT_DATA</h3>
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.7rem; color: #888;">COURSE_IDENTIFIER</label>
+                <input type="text" id="cName" placeholder="e.g. DATA_STRUCTURES_CS201">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label style="font-size: 0.7rem; color: #888;">GRADE_LEVEL</label>
+                    <select id="cGrade">
+                        <option value="4.0">A (4.00)</option>
+                        <option value="3.7">A- (3.70)</option>
+                        <option value="3.3">B+ (3.30)</option>
+                        <option value="3.0">B (3.00)</option>
+                        <option value="2.7">B- (2.70)</option>
+                        <option value="2.3">C+ (2.30)</option>
+                        <option value="2.0">C (2.00)</option>
+                        <option value="0.0">F (0.00)</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.7rem; color: #888;">CREDIT_UNITS</label>
+                    <input type="number" id="cCredits" placeholder="3">
+                </div>
+            </div>
+            <button class="btn btn-neon" onclick="addEntry()">EXECUTE_ADDITION</button>
+
+            <div id="displayList" style="margin-top: 2rem;">
+                </div>
+        </div>
+
+        <div class="card">
+            <h3 style="color: var(--cyber-purple); margin-bottom: 20px;">// SYSTEM_OUTPUT</h3>
+            <div class="result-display">
+                <span style="font-size: 0.7rem; color: #888;">CURRENT_GPA</span>
+                <div class="gpa-num" id="finalGpa">0.00</div>
+            </div>
+            <p id="statusMsg" style="text-align: center; color: var(--cyber-purple); font-weight: bold;"></p>
         </div>
     </div>
 
-    <footer style="text-align: center; margin-top: 4rem; color: var(--text-muted); font-size: 0.9rem;">
-        Developed by <span style="color: var(--primary-gold); font-weight: 800;">SHOZI</span> &copy; 2026
+    <footer class="dev-footer">
+        <p style="font-size: 0.7rem; color: #555; margin-bottom: 8px;">ENCRYPTED CALCULATION INTERFACE</p>
+        <div class="dev-name">developed by shozixsarim</div>
+        <p style="font-size: 0.6rem; color: #444; margin-top: 15px;">© 2026 // UET_LAHORE_COMPATIBLE</p>
     </footer>
 </div>
 
 <script>
-    let courses = [], semesters = [];
+    let data = [];
 
-    function switchTab(tab, e) {
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tab + '-tab').classList.add('active');
-        e.currentTarget.classList.add('active');
+    function addEntry() {
+        const name = document.getElementById('cName').value || "UNNAMED_TASK";
+        const grade = parseFloat(document.getElementById('cGrade').value);
+        const credits = parseFloat(document.getElementById('cCredits').value);
+
+        if(!credits) return;
+
+        data.push({name, grade, credits});
+        updateUI();
     }
 
-    function addCourse() {
-        const name = document.getElementById('courseName').value || 'Unnamed Course';
-        const grade = parseFloat(document.getElementById('grade').value);
-        const credits = parseFloat(document.getElementById('creditHours').value);
-
-        if (!credits) return alert("Enter Credit Hours");
-        
-        courses.push({ name, grade, credits });
-        renderCourses();
-        calculateGPA();
-    }
-
-    function renderCourses() {
-        const list = document.getElementById('courseList');
-        list.innerHTML = courses.map((c, i) => `
-            <div class="list-entry">
-                <div>
-                    <div style="font-weight: 600">${c.name}</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted)">${c.credits} Credits • GP: ${c.grade}</div>
-                </div>
-                <span class="remove-icon" onclick="removeCourse(${i})">✕</span>
+    function updateUI() {
+        const list = document.getElementById('displayList');
+        list.innerHTML = data.map((item, i) => `
+            <div class="list-item">
+                <span>${item.name} (${item.credits}Cr)</span>
+                <span style="color: var(--neon-mint); cursor:pointer" onclick="removeItem(${i})">REMOVE_X</span>
             </div>
         `).join('');
-    }
 
-    function removeCourse(i) {
-        courses.splice(i, 1);
-        renderCourses();
-        calculateGPA();
-    }
-
-    function calculateGPA() {
-        let totalPoints = 0, totalCredits = 0;
-        courses.forEach(c => {
-            totalPoints += (c.grade * c.credits);
-            totalCredits += c.credits;
+        let totalPts = 0, totalCr = 0;
+        data.forEach(d => {
+            totalPts += (d.grade * d.credits);
+            totalCr += d.credits;
         });
-        const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
-        document.getElementById('gpaValue').innerText = gpa;
-        document.getElementById('gpaStatus').innerText = gpa >= 3.5 ? "🌟 Dean's List Potential" : "Keep it up!";
+
+        const res = totalCr > 0 ? (totalPts / totalCr).toFixed(2) : "0.00";
+        document.getElementById('finalGpa').innerText = res;
     }
 
-    // CGPA Logic
-    function addSemester() {
-        const gpa = parseFloat(document.getElementById('semesterGPA').value);
-        const credits = parseFloat(document.getElementById('semesterCredits').value);
-        if(!gpa || !credits) return;
-        semesters.push({gpa, credits});
-        renderSemesters();
-        calculateCGPA();
-    }
-
-    function renderSemesters() {
-        const list = document.getElementById('semesterList');
-        list.innerHTML = semesters.map((s, i) => `
-            <div class="list-entry">
-                <span>Semester ${i+1}: <b>${s.gpa}</b></span>
-                <span class="remove-icon" onclick="semesters.splice(${i},1); renderSemesters(); calculateCGPA();">✕</span>
-            </div>
-        `).join('');
-    }
-
-    function calculateCGPA() {
-        let tp = 0, tc = 0;
-        semesters.forEach(s => { tp += (s.gpa * s.credits); tc += s.credits; });
-        const cgpa = tc > 0 ? (tp / tc).toFixed(2) : "0.00";
-        document.getElementById('cgpaValue').innerText = cgpa;
+    function removeItem(i) {
+        data.splice(i, 1);
+        updateUI();
     }
 </script>
+
 </body>
 </html>
