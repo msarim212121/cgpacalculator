@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UET Lahore GPA Calculator | Premium Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        
+        :root {
+            /* New Luxury Color Scheme */
+            --primary-gold: #fbbf24;
+            --dark-gold: #b45309;
+            --bg-obsidian: #020617;
+            --card-glass: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-glow: rgba(251, 191, 36, 0.15);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --danger: #f43f5e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-obsidian);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(251, 191, 36, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; position: relative; }
+
+        /* Header Styling */
+        .header { text-align: center; margin-bottom: 4rem; }
+        .logo-box { 
+            width: 80px; height: 80px; 
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            border-radius: 20px; margin: 0 auto 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; box-shadow: 0 10px 30px var(--accent-glow);
+        }
+        h1 { 
+            font-family: 'Outfit'; font-size: 3rem; font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--primary-gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Modern Tabs */
+        .tabs { 
+            display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem;
+            background: var(--card-glass); padding: 0.5rem; border-radius: 100px;
+            backdrop-filter: blur(10px); border: 1px solid var(--border-color);
+        }
+        .tab-btn {
+            padding: 0.8rem 2rem; border: none; background: transparent;
+            color: var(--text-muted); font-weight: 600; cursor: pointer;
+            border-radius: 100px; transition: 0.3s;
+        }
+        .tab-btn.active { background: var(--primary-gold); color: var(--bg-obsidian); }
+
+        /* Main Grid */
+        .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; }
+        .card { 
+            background: var(--card-glass); backdrop-filter: blur(16px);
+            border-radius: 24px; padding: 2rem; border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        .card-title { font-family: 'Outfit'; font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+
+        /* Form Elements */
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
+        input, select { 
+            width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color);
+            padding: 1rem; border-radius: 12px; color: white; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary-gold); box-shadow: 0 0 15px var(--accent-glow); }
+
+        /* Action Buttons */
+        .btn { 
+            width: 100%; padding: 1rem; border-radius: 12px; border: none; font-weight: 700;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-gold { background: var(--primary-gold); color: var(--bg-obsidian); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 5px 20px var(--accent-glow); }
+        .btn-outline { background: transparent; border: 1px solid var(--primary-gold); color: var(--primary-gold); margin-top: 1rem; }
+
+        /* Results Display */
+        .result-box { 
+            text-align: center; padding: 2.5rem; 
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), transparent);
+            border-radius: 20px; border: 1px dashed var(--primary-gold);
+        }
+        .score { font-size: 4.5rem; font-weight: 800; color: var(--primary-gold); font-family: 'Outfit'; }
+        
+        /* List Styling */
+        .item-list { margin-top: 2rem; max-height: 300px; overflow-y: auto; }
+        .list-entry { 
+            background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 12px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;
+        }
+        .remove-icon { color: var(--danger); cursor: pointer; font-size: 1.2rem; }
+
+        /* Grade Table */
+        .grade-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .grade-table th { text-align: left; padding: 1rem; border-bottom: 1px solid var(--border-color); color: var(--primary-gold); }
+        .grade-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <div class="logo-box">🎓</div>
+        <h1>UET Lahore Calculator</h1>
+        <p style="color: var(--text-muted)">Academic Performance Management System</p>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('gpa', event)">Semester GPA</button>
+        <button class="tab-btn" onclick="switchTab('cgpa', event)">Cumulative CGPA</button>
+        <button class="tab-btn" onclick="switchTab('grades', event)">Grade Scale</button>
+    </div>
+
+    <div id="gpa-tab" class="tab-content active">
+        <div class="content-grid">
+            <div class="card">
+                <h2 class="card-title"><span>📝</span> Course Entry</h2>
+                <div class="form-group">
+                    <label>Course Title</label>
+                    <input type="text" id="courseName" placeholder="e.g. Data Structures">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Obtained Grade</label>
+                        <select id="grade">
+                            <option value="4.0">A / A+ (4.0)</option>
+                            <option value="3.7">A- (3.7)</option>
+                            <option value="3.3">B+ (3.3)</option>
+                            <option value="3.0">B (3.0)</option>
+                            <option value="2.7">B- (2.7)</option>
+                            <option value="2.3">C+ (2.3)</option>
+                            <option value="2.0">C (2.0)</option>
+                            <option value="1.7">C- (1.7)</option>
+                            <option value="1.3">D+ (1.3)</option>
+                            <option value="1.0">D (1.0)</option>
+                            <option value="0">F (0.0)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Credits</label>
+                        <input type="number" id="creditHours" placeholder="3">
+                    </div>
+                </div>
+                <button class="btn btn-gold" onclick="addCourse()">+ Add to List</button>
+                
+                <div class="item-list" id="courseList">
+                    </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title"><span>🎯</span> Summary</h2>
+                <div id="gpaResult" class="result-box">
+                    <p style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Semester GPA</p>
+                    <div class="score" id="gpaValue">0.00</div>
+                    <p id="gpaStatus" style="color: var(--primary-gold); font-weight: 600;"></p>
+                </div>
+                <button class="btn btn-outline" onclick="calculateGPA()">Update Calculation</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cgpa-tab" class="tab-content">
+        <div class="content-grid">
+            <div class="card">
+                <h2 class="card-title"><span>📅</span> Semester History</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>GPA</label>
+                        <input type="number" id="semesterGPA" step="0.01" placeholder="3.80">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Credits</label>
+                        <input type="number" id="semesterCredits" placeholder="18">
+                    </div>
+                </div>
+                <button class="btn btn-gold" onclick="addSemester()">Add Semester</button>
+                <div class="item-list" id="semesterList"></div>
+            </div>
+            <div class="card">
+                <h2 class="card-title"><span>🏆</span> Cumulative Result</h2>
+                <div class="result-box">
+                    <p style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Final CGPA</p>
+                    <div class="score" id="cgpaValue">0.00</div>
+                    <p id="cgpaStatus" style="color: var(--primary-gold); font-weight: 600;"></p>
+                </div>
+                <button class="btn btn-outline" onclick="calculateCGPA()">Generate Report</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="grades-tab" class="tab-content">
+        <div class="card">
+            <h2 class="card-title">Official UET Grading Scheme</h2>
+            <table class="grade-table">
+                <thead>
+                    <tr><th>Grade</th><th>Points</th><th>Definition</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>A+ / A</td><td>4.0</td><td>Exceptional</td></tr>
+                    <tr><td>A-</td><td>3.7</td><td>Very Good</td></tr>
+                    <tr><td>B+</td><td>3.3</td><td>Good</td></tr>
+                    <tr><td>B</td><td>3.0</td><td>Above Average</td></tr>
+                    <tr><td>C</td><td>2.0</td><td>Satisfactory</td></tr>
+                    <tr><td>F</td><td>0.0</td><td>Fail</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer style="text-align: center; margin-top: 4rem; color: var(--text-muted); font-size: 0.9rem;">
+        Developed by <span style="color: var(--primary-gold); font-weight: 800;">SHOZI</span> &copy; 2026
+    </footer>
+</div>
+
+<script>
+    let courses = [], semesters = [];
+
+    function switchTab(tab, e) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tab + '-tab').classList.add('active');
+        e.currentTarget.classList.add('active');
+    }
+
+    function addCourse() {
+        const name = document.getElementById('courseName').value || 'Unnamed Course';
+        const grade = parseFloat(document.getElementById('grade').value);
+        const credits = parseFloat(document.getElementById('creditHours').value);
+
+        if (!credits) return alert("Enter Credit Hours");
+        
+        courses.push({ name, grade, credits });
+        renderCourses();
+        calculateGPA();
+    }
+
+    function renderCourses() {
+        const list = document.getElementById('courseList');
+        list.innerHTML = courses.map((c, i) => `
+            <div class="list-entry">
+                <div>
+                    <div style="font-weight: 600">${c.name}</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted)">${c.credits} Credits • GP: ${c.grade}</div>
+                </div>
+                <span class="remove-icon" onclick="removeCourse(${i})">✕</span>
+            </div>
+        `).join('');
+    }
+
+    function removeCourse(i) {
+        courses.splice(i, 1);
+        renderCourses();
+        calculateGPA();
+    }
+
+    function calculateGPA() {
+        let totalPoints = 0, totalCredits = 0;
+        courses.forEach(c => {
+            totalPoints += (c.grade * c.credits);
+            totalCredits += c.credits;
+        });
+        const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
+        document.getElementById('gpaValue').innerText = gpa;
+        document.getElementById('gpaStatus').innerText = gpa >= 3.5 ? "🌟 Dean's List Potential" : "Keep it up!";
+    }
+
+    // CGPA Logic
+    function addSemester() {
+        const gpa = parseFloat(document.getElementById('semesterGPA').value);
+        const credits = parseFloat(document.getElementById('semesterCredits').value);
+        if(!gpa || !credits) return;
+        semesters.push({gpa, credits});
+        renderSemesters();
+        calculateCGPA();
+    }
+
+    function renderSemesters() {
+        const list = document.getElementById('semesterList');
+        list.innerHTML = semesters.map((s, i) => `
+            <div class="list-entry">
+                <span>Semester ${i+1}: <b>${s.gpa}</b></span>
+                <span class="remove-icon" onclick="semesters.splice(${i},1); renderSemesters(); calculateCGPA();">✕</span>
+            </div>
+        `).join('');
+    }
+
+    function calculateCGPA() {
+        let tp = 0, tc = 0;
+        semesters.forEach(s => { tp += (s.gpa * s.credits); tc += s.credits; });
+        const cgpa = tc > 0 ? (tp / tc).toFixed(2) : "0.00";
+        document.getElementById('cgpaValue').innerText = cgpa;
+    }
+</script>
+</body>
+</html>
