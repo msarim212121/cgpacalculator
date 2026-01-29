@@ -3,227 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPA Matrix | shozixsarim Edition</title>
+    <title>GPA Matrix Pro | SHOZI X SARIM</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@400;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;700;900&display=swap');
+
         :root {
-            --neon-mint: #00ffcc;
-            --cyber-purple: #bc13fe;
-            --deep-space: #050505;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --text-glow: 0 0 10px rgba(0, 255, 204, 0.5);
+            --primary: #6366f1;
+            --secondary: #06b6d4;
+            --accent: #f43f5e;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--deep-space);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(188, 19, 254, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 255, 204, 0.1) 0%, transparent 40%);
-            color: #e0e0e0;
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #020617;
+            color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
+            display: flex;
+            justify-content: center;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+        /* Dynamic Animated Background */
+        .nebula {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15), transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.15), transparent 40%);
+            filter: blur(80px); animation: drift 20s infinite alternate;
+        }
+        @keyframes drift { from { transform: scale(1); } to { transform: scale(1.2); } }
 
-        header { text-align: center; margin-bottom: 3rem; }
-        
-        .logo-text {
-            font-family: 'Syncopate', sans-serif;
-            font-weight: 700;
-            font-size: 2.5rem;
-            letter-spacing: -2px;
-            background: linear-gradient(to right, var(--neon-mint), var(--cyber-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
+        .app-container {
+            width: 100%; max-width: 1200px; padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
         }
 
+        /* Header & Brand */
+        .header { text-align: center; margin-bottom: 3rem; }
+        .badge {
+            background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary);
+            color: var(--primary); padding: 6px 16px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+        }
+        h1 {
+            font-family: 'Outfit'; font-size: 3.5rem; font-weight: 900; margin: 1rem 0;
+            background: linear-gradient(to bottom right, #fff, var(--text-dim));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Tab System */
         .tabs {
-            display: flex; gap: 5px; background: rgba(255,255,255,0.05);
-            padding: 5px; border-radius: 12px; margin-bottom: 2rem;
-            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; gap: 8px; background: var(--glass);
+            padding: 6px; border-radius: 18px; border: 1px solid var(--glass-border);
+            margin-bottom: 2rem; width: fit-content; margin-inline: auto;
         }
-        .tab-btn {
-            flex: 1; padding: 12px; border: none; background: transparent;
-            color: #888; cursor: pointer; border-radius: 8px; font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .tab {
+            padding: 12px 24px; border-radius: 14px; cursor: pointer;
+            transition: 0.3s; font-weight: 600; color: var(--text-dim); border: none; background: none;
         }
-        .tab-btn.active { 
-            background: rgba(0, 255, 204, 0.1); 
-            color: var(--neon-mint);
-            box-shadow: inset 0 0 15px rgba(0, 255, 204, 0.2);
-            border: 1px solid rgba(0, 255, 204, 0.3);
-        }
+        .tab.active { background: white; color: #000; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-        .content-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; }
-
-        .card { 
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 20px; padding: 2rem;
-            position: relative; overflow: hidden;
+        /* Content Layout */
+        .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px);
+            border-radius: 32px; border: 1px solid var(--glass-border);
+            padding: 2.5rem; transition: 0.4s;
         }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-mint), transparent);
-        }
+        .glass-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
 
+        /* Inputs & Controls */
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; }
         input, select {
-            width: 100%; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 14px; border-radius: 10px; color: white; margin-top: 8px;
-            outline: none; transition: 0.3s;
+            width: 100%; padding: 16px; background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border); border-radius: 16px;
+            color: white; font-size: 1rem; transition: 0.3s;
         }
-        input:focus { border-color: var(--neon-mint); box-shadow: 0 0 15px rgba(0, 255, 204, 0.2); }
+        input:focus { border-color: var(--primary); outline: none; background: rgba(99, 102, 241, 0.05); }
 
-        .btn {
-            width: 100%; padding: 14px; border-radius: 10px; border: none;
-            font-weight: 700; cursor: pointer; margin-top: 1.5rem;
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+        .btn-action {
+            width: 100%; padding: 18px; border-radius: 16px; border: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; font-weight: 800; cursor: pointer; margin-top: 1.5rem;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3); transition: 0.3s;
         }
-        .btn-neon { background: var(--neon-mint); color: black; }
-        .btn-neon:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 255, 204, 0.4); }
+        .btn-action:hover { transform: scale(1.02); filter: brightness(1.1); }
 
-        .result-display {
-            text-align: center; border: 2px solid rgba(188, 19, 254, 0.3);
-            border-radius: 100%; width: 220px; height: 220px; margin: 2rem auto;
-            display: flex; flex-direction: column; justify-content: center;
-            background: radial-gradient(circle, rgba(188, 19, 254, 0.1) 0%, transparent 70%);
+        /* Result Display */
+        .result-circle {
+            width: 240px; height: 240px; margin: 0 auto;
+            border-radius: 50%; border: 4px solid var(--glass-border);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1), transparent);
+            position: relative;
         }
-        .gpa-num { font-size: 4rem; font-weight: 700; color: var(--neon-mint); text-shadow: var(--text-glow); }
+        .gpa-val { font-family: 'Outfit'; font-size: 5rem; font-weight: 900; line-height: 1; }
+        .gpa-lbl { font-size: 0.8rem; font-weight: 700; color: var(--text-dim); }
 
+        /* List Items */
         .list-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px; background: rgba(255,255,255,0.03);
-            border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--cyber-purple);
+            background: rgba(255,255,255,0.03); border-radius: 16px;
+            padding: 16px; margin-bottom: 12px; display: flex;
+            justify-content: space-between; align-items: center;
+            border-left: 4px solid var(--secondary); animation: slideIn 0.3s ease;
+        }
+        .item-del { color: var(--accent); cursor: pointer; font-size: 1.2rem; }
+
+        /* DEVELOPER FOOTER */
+        .footer {
+            margin-top: 5rem; text-align: center; padding-bottom: 3rem;
+        }
+        .dev-tag {
+            font-family: 'Outfit'; font-weight: 800; font-size: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: 4px; display: inline-block; position: relative;
+        }
+        .dev-tag::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; 
+            width: 100%; height: 2px; background: currentColor; transform: scaleX(0.3);
         }
 
-        /* DEVELOPER FOOTER STYLE */
-        .dev-footer {
-            margin-top: 5rem; padding: 2rem; text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        .dev-name {
-            font-family: 'Syncopate', sans-serif;
-            font-weight: 700; font-size: 1.2rem;
-            color: var(--neon-mint); text-shadow: var(--text-glow);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.7; text-shadow: 0 0 5px var(--neon-mint); }
-            50% { opacity: 1; text-shadow: 0 0 20px var(--neon-mint); }
-            100% { opacity: 0.7; text-shadow: 0 0 5px var(--neon-mint); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
 
-        @media (max-width: 768px) { .content-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
+    <div class="nebula"></div>
+    
+    <div class="app-container">
+        <header class="header">
+            <span class="badge">Advanced Academic Suite</span>
+            <h1>GPA Matrix</h1>
+        </header>
 
-<div class="container">
-    <header>
-        <div class="logo-text">UET MATRIX</div>
-        <p style="color: #666; letter-spacing: 3px; font-size: 0.8rem; margin-top: 10px;">VERSION 2.0 // CALCULATION ENGINE</p>
-    </header>
-
-    <div class="tabs">
-        <button class="tab-btn active">SEMESTER GPA</button>
-        <button class="tab-btn">CUMULATIVE CGPA</button>
-    </div>
-
-    <div class="content-grid">
-        <div class="card">
-            <h3 style="color: var(--neon-mint); margin-bottom: 20px;">// INPUT_DATA</h3>
-            <div style="margin-bottom: 15px;">
-                <label style="font-size: 0.7rem; color: #888;">COURSE_IDENTIFIER</label>
-                <input type="text" id="cName" placeholder="e.g. DATA_STRUCTURES_CS201">
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div>
-                    <label style="font-size: 0.7rem; color: #888;">GRADE_LEVEL</label>
-                    <select id="cGrade">
-                        <option value="4.0">A (4.00)</option>
-                        <option value="3.7">A- (3.70)</option>
-                        <option value="3.3">B+ (3.30)</option>
-                        <option value="3.0">B (3.00)</option>
-                        <option value="2.7">B- (2.70)</option>
-                        <option value="2.3">C+ (2.30)</option>
-                        <option value="2.0">C (2.00)</option>
-                        <option value="0.0">F (0.00)</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="font-size: 0.7rem; color: #888;">CREDIT_UNITS</label>
-                    <input type="number" id="cCredits" placeholder="3">
-                </div>
-            </div>
-            <button class="btn btn-neon" onclick="addEntry()">EXECUTE_ADDITION</button>
-
-            <div id="displayList" style="margin-top: 2rem;">
-                </div>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('gpa', this)">Semester Calculator</button>
+            <button class="tab" onclick="switchTab('cgpa', this)">CGPA Forecaster</button>
         </div>
 
-        <div class="card">
-            <h3 style="color: var(--cyber-purple); margin-bottom: 20px;">// SYSTEM_OUTPUT</h3>
-            <div class="result-display">
-                <span style="font-size: 0.7rem; color: #888;">CURRENT_GPA</span>
-                <div class="gpa-num" id="finalGpa">0.00</div>
+        <div id="gpa-view" class="view-content">
+            <div class="grid">
+                <div class="glass-card">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div style="grid-column: span 2;">
+                            <label>Course Title</label>
+                            <input type="text" id="cName" placeholder="e.g. Artificial Intelligence">
+                        </div>
+                        <div>
+                            <label>Grade Point</label>
+                            <select id="cGrade">
+                                <option value="4.0">A+ / A (4.0)</option>
+                                <option value="3.7">A- (3.7)</option>
+                                <option value="3.3">B+ (3.3)</option>
+                                <option value="3.0">B (3.0)</option>
+                                <option value="2.7">B- (2.7)</option>
+                                <option value="2.3">C+ (2.3)</option>
+                                <option value="2.0">C (2.0)</option>
+                                <option value="0.0">F (0.0)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Credit Hours</label>
+                            <input type="number" id="cCr" placeholder="3" min="1">
+                        </div>
+                    </div>
+                    <button class="btn-action" onclick="addCourse()">+ Add Course to Matrix</button>
+
+                    <div id="courseList" style="margin-top: 2rem; max-height: 300px; overflow-y: auto; padding-right: 5px;">
+                        </div>
+                </div>
+
+                <div class="glass-card" style="text-align: center;">
+                    <label>Real-time Statistics</label>
+                    <div class="result-circle">
+                        <div class="gpa-lbl">GPA</div>
+                        <div class="gpa-val" id="gpaOut">0.00</div>
+                    </div>
+                    <div id="gpaStatus" style="margin-top: 1.5rem; font-weight: 700; color: var(--secondary);">Waiting for data...</div>
+                    <button class="btn-action" style="background: rgba(255,255,255,0.05); color: var(--text-dim); box-shadow: none;" onclick="resetGPA()">Clear All</button>
+                </div>
             </div>
-            <p id="statusMsg" style="text-align: center; color: var(--cyber-purple); font-weight: bold;"></p>
         </div>
+
+        <div id="cgpa-view" class="view-content" style="display: none;">
+            <div class="grid">
+                <div class="glass-card">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <label>Semester GPA</label>
+                            <input type="number" id="semGpa" placeholder="3.80" step="0.01">
+                        </div>
+                        <div>
+                            <label>Total Credits</label>
+                            <input type="number" id="semCr" placeholder="18">
+                        </div>
+                    </div>
+                    <button class="btn-action" onclick="addSem()">Add Semester Block</button>
+                    <div id="semList" style="margin-top: 2rem;"></div>
+                </div>
+
+                <div class="glass-card" style="text-align: center;">
+                    <label>Cumulative Standing</label>
+                    <div class="result-circle" style="border-color: var(--secondary);">
+                        <div class="gpa-lbl">CGPA</div>
+                        <div class="gpa-val" id="cgpaOut">0.00</div>
+                    </div>
+                    <p id="cgpaStatus" style="margin-top: 1rem; color: var(--text-dim);"></p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p style="color: var(--text-dim); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px;">ARCHITECTED BY</p>
+            <div class="dev-tag">SHOZI X SARIM</div>
+            <p style="color: var(--text-dim); font-size: 0.6rem; margin-top: 20px;">v4.0.2 Stable | &copy; 2026</p>
+        </footer>
     </div>
 
-    <footer class="dev-footer">
-        <p style="font-size: 0.7rem; color: #555; margin-bottom: 8px;">ENCRYPTED CALCULATION INTERFACE</p>
-        <div class="dev-name">developed by shozixsarim</div>
-        <p style="font-size: 0.6rem; color: #444; margin-top: 15px;">© 2026 // UET_LAHORE_COMPATIBLE</p>
-    </footer>
-</div>
+    <script>
+        // CORE LOGIC & ERROR HANDLING
+        let courses = JSON.parse(localStorage.getItem('courses')) || [];
+        let semesters = JSON.parse(localStorage.getItem('semesters')) || [];
 
-<script>
-    let data = [];
+        function switchTab(type, el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('gpa-view').style.display = type === 'gpa' ? 'block' : 'none';
+            document.getElementById('cgpa-view').style.display = type === 'cgpa' ? 'block' : 'none';
+        }
 
-    function addEntry() {
-        const name = document.getElementById('cName').value || "UNNAMED_TASK";
-        const grade = parseFloat(document.getElementById('cGrade').value);
-        const credits = parseFloat(document.getElementById('cCredits').value);
+        // --- GPA CALCULATOR ---
+        function addCourse() {
+            const name = document.getElementById('cName').value || "Untagged Course";
+            const grade = parseFloat(document.getElementById('cGrade').value);
+            const cr = parseFloat(document.getElementById('cCr').value);
 
-        if(!credits) return;
+            if(!cr || cr < 1 || cr > 10) { alert("Invalid Credit Hours!"); return; }
 
-        data.push({name, grade, credits});
-        updateUI();
-    }
+            courses.push({ name, grade, cr });
+            localStorage.setItem('courses', JSON.stringify(courses));
+            renderGPA();
+            document.getElementById('cName').value = '';
+        }
 
-    function updateUI() {
-        const list = document.getElementById('displayList');
-        list.innerHTML = data.map((item, i) => `
-            <div class="list-item">
-                <span>${item.name} (${item.credits}Cr)</span>
-                <span style="color: var(--neon-mint); cursor:pointer" onclick="removeItem(${i})">REMOVE_X</span>
-            </div>
-        `).join('');
+        function renderGPA() {
+            const list = document.getElementById('courseList');
+            list.innerHTML = courses.map((c, i) => `
+                <div class="list-item">
+                    <div>
+                        <div style="font-weight:700">${c.name}</div>
+                        <div style="font-size:0.75rem; color:var(--text-dim)">Grade: ${c.grade.toFixed(1)} | Units: ${c.cr}</div>
+                    </div>
+                    <div class="item-del" onclick="removeCourse(${i})">✕</div>
+                </div>
+            `).join('');
 
-        let totalPts = 0, totalCr = 0;
-        data.forEach(d => {
-            totalPts += (d.grade * d.credits);
-            totalCr += d.credits;
-        });
+            let totalPoints = 0, totalCr = 0;
+            courses.forEach(c => {
+                totalPoints += (c.grade * c.cr);
+                totalCr += c.cr;
+            });
 
-        const res = totalCr > 0 ? (totalPts / totalCr).toFixed(2) : "0.00";
-        document.getElementById('finalGpa').innerText = res;
-    }
+            const final = totalCr > 0 ? (totalPoints / totalCr).toFixed(2) : "0.00";
+            document.getElementById('gpaOut').innerText = final;
+            document.getElementById('gpaStatus').innerText = final >= 3.5 ? "🌟 DEAN'S LIST" : final >= 3.0 ? "🔥 EXCELLENT" : "📈 PERSISTENCE IS KEY";
+        }
 
-    function removeItem(i) {
-        data.splice(i, 1);
-        updateUI();
-    }
-</script>
+        function removeCourse(i) {
+            courses.splice(i, 1);
+            localStorage.setItem('courses', JSON.stringify(courses));
+            renderGPA();
+        }
 
+        function resetGPA() { 
+            if(confirm("Wipe all course data?")) {
+                courses = []; localStorage.removeItem('courses'); renderGPA(); 
+            }
+        }
+
+        // --- CGPA CALCULATOR (PRO LOGIC) ---
+        function addSem() {
+            const gpa = parseFloat(document.getElementById('semGpa').value);
+            const cr = parseFloat(document.getElementById('semCr').value);
+
+            if(isNaN(gpa) || gpa < 0 || gpa > 4 || isNaN(cr)) {
+                alert("Please enter valid GPA (0-4) and Credits!");
+                return;
+            }
+
+            semesters.push({ gpa, cr });
+            localStorage.setItem('semesters', JSON.stringify(semesters));
+            renderCGPA();
+            document.getElementById('semGpa').value = '';
+            document.getElementById('semCr').value = '';
+        }
+
+        function renderCGPA() {
+            const list = document.getElementById('semList');
+            list.innerHTML = semesters.map((s, i) => `
+                <div class="list-item" style="border-left-color: var(--primary)">
+                    <span>Sem ${i+1}: <b>${s.gpa.toFixed(2)}</b> GPA</span>
+                    <span class="item-del" onclick="removeSem(${i})">✕</span>
+                </div>
+            `).join('');
+
+            // Pro Calculation: Weighted by Credit Hours
+            let weightedSum = 0, totalCr = 0;
+            semesters.forEach(s => {
+                weightedSum += (s.gpa * s.cr);
+                totalCr += s.cr;
+            });
+
+            const cgpa = totalCr > 0 ? (weightedSum / totalCr).toFixed(2) : "0.00";
+            document.getElementById('cgpaOut').innerText = cgpa;
+            document.getElementById('cgpaStatus').innerText = `Aggregated over ${totalCr} total credits`;
+        }
+
+        function removeSem(i) {
+            semesters.splice(i, 1);
+            localStorage.setItem('semesters', JSON.stringify(semesters));
+            renderCGPA();
+        }
+
+        // Init
+        renderGPA();
+        renderCGPA();
+    </script>
 </body>
 </html>
