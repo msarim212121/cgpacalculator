@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPA CALCULATOR PRO | SHOZI X SARIM</title>
+    <title>GPA Matrix Pro | SHOZI X SARIM</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Outfit:wght@400;700;900&display=swap');
 
         :root {
             --primary: #6366f1;
             --secondary: #06b6d4;
-            --accent: #f43f5e;
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #f8fafc;
@@ -22,320 +21,239 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: #020617;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
             color: var(--text-main);
             min-height: 100vh;
-            overflow-x: hidden;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Dynamic Animated Background */
-        .nebula {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15), transparent 40%),
-                        radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.15), transparent 40%);
-            filter: blur(80px); animation: drift 20s infinite alternate;
-        }
-        @keyframes drift { from { transform: scale(1); } to { transform: scale(1.2); } }
+        .container { width: 100%; max-width: 1000px; padding: 2rem; }
 
-        .app-container {
-            width: 100%; max-width: 1200px; padding: 2rem;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        /* Header & Brand */
+        /* Branding */
         .header { text-align: center; margin-bottom: 3rem; }
-        .badge {
-            background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary);
-            color: var(--primary); padding: 6px 16px; border-radius: 100px;
-            font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-        }
         h1 {
-            font-family: 'Outfit'; font-size: 3.5rem; font-weight: 900; margin: 1rem 0;
-            background: linear-gradient(to bottom right, #fff, var(--text-dim));
+            font-family: 'Outfit'; font-size: 3.5rem; font-weight: 900;
+            background: linear-gradient(to bottom right, #fff, #6366f1);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* Tab System */
+        /* Navigation */
         .tabs {
-            display: flex; gap: 8px; background: var(--glass);
-            padding: 6px; border-radius: 18px; border: 1px solid var(--glass-border);
+            display: flex; gap: 10px; background: var(--glass);
+            padding: 5px; border-radius: 20px; border: 1px solid var(--glass-border);
             margin-bottom: 2rem; width: fit-content; margin-inline: auto;
         }
-        .tab {
-            padding: 12px 24px; border-radius: 14px; cursor: pointer;
+        .tab-btn {
+            padding: 10px 25px; border-radius: 15px; cursor: pointer;
             transition: 0.3s; font-weight: 600; color: var(--text-dim); border: none; background: none;
         }
-        .tab.active { background: white; color: #000; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .tab-btn.active { background: white; color: #000; }
 
-        /* Content Layout */
-        .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; }
-        .glass-card {
-            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px);
-            border-radius: 32px; border: 1px solid var(--glass-border);
-            padding: 2.5rem; transition: 0.4s;
+        /* Main Content Grid */
+        .grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; }
+        .card {
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px);
+            border-radius: 24px; border: 1px solid var(--glass-border); padding: 2rem;
         }
-        .glass-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
 
-        /* Inputs & Controls */
-        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; }
+        /* Inputs */
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; font-size: 0.7rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; text-transform: uppercase; }
         input, select {
-            width: 100%; padding: 16px; background: rgba(0,0,0,0.3);
-            border: 1px solid var(--glass-border); border-radius: 16px;
-            color: white; font-size: 1rem; transition: 0.3s;
+            width: 100%; padding: 12px; background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            color: white; outline: none; transition: 0.3s;
         }
-        input:focus { border-color: var(--primary); outline: none; background: rgba(99, 102, 241, 0.05); }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(99, 102, 241, 0.2); }
 
-        .btn-action {
-            width: 100%; padding: 18px; border-radius: 16px; border: none;
+        .btn {
+            width: 100%; padding: 15px; border-radius: 12px; border: none;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white; font-weight: 800; cursor: pointer; margin-top: 1.5rem;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3); transition: 0.3s;
+            color: white; font-weight: 800; cursor: pointer; transition: 0.3s;
         }
-        .btn-action:hover { transform: scale(1.02); filter: brightness(1.1); }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-        /* Result Display */
-        .result-circle {
-            width: 240px; height: 240px; margin: 0 auto;
-            border-radius: 50%; border: 4px solid var(--glass-border);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.1), transparent);
-            position: relative;
+        /* Result Visualization */
+        .result-box {
+            text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-radius: 24px; border: 2px dashed var(--glass-border); height: 100%; min-height: 250px;
         }
-        .gpa-val { font-family: 'Outfit'; font-size: 5rem; font-weight: 900; line-height: 1; }
-        .gpa-lbl { font-size: 0.8rem; font-weight: 700; color: var(--text-dim); }
+        .score { font-family: 'Outfit'; font-size: 5rem; font-weight: 900; line-height: 1; margin: 10px 0; }
 
-        /* List Items */
+        /* Dynamic List */
+        .list-container { margin-top: 1.5rem; max-height: 200px; overflow-y: auto; }
         .list-item {
-            background: rgba(255,255,255,0.03); border-radius: 16px;
-            padding: 16px; margin-bottom: 12px; display: flex;
-            justify-content: space-between; align-items: center;
-            border-left: 4px solid var(--secondary); animation: slideIn 0.3s ease;
+            background: rgba(255,255,255,0.03); padding: 10px 15px;
+            border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between;
         }
-        .item-del { color: var(--accent); cursor: pointer; font-size: 1.2rem; }
 
-        /* DEVELOPER FOOTER */
+        /* FOOTER BRANDING */
         .footer {
-            margin-top: 5rem; text-align: center; padding-bottom: 3rem;
+            margin-top: auto; width: 100%; padding: 3rem 0; text-align: center;
+            border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
         }
-        .dev-tag {
-            font-family: 'Outfit'; font-weight: 800; font-size: 1.5rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            letter-spacing: 4px; display: inline-block; position: relative;
+        .dev-branding { margin-bottom: 15px; }
+        .dev-title {
+            font-family: 'Outfit'; font-size: 1.4rem; font-weight: 900;
+            letter-spacing: 3px; color: var(--primary); margin-bottom: 5px;
         }
-        .dev-tag::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; 
-            width: 100%; height: 2px; background: currentColor; transform: scaleX(0.3);
+        .insta-links { display: flex; justify-content: center; gap: 20px; }
+        .insta-tag {
+            color: var(--text-dim); text-decoration: none; font-size: 0.85rem;
+            transition: 0.3s; display: flex; align-items: center; gap: 5px;
         }
+        .insta-tag:hover { color: var(--secondary); transform: scale(1.05); }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
-
-        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div class="nebula"></div>
-    
-    <div class="app-container">
-        <header class="header">
-            <span class="badge">Advanced Academic Suite</span>
-            <h1>GPA Matrix</h1>
-        </header>
 
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('gpa', this)">Semester Calculator</button>
-            <button class="tab" onclick="switchTab('cgpa', this)">CGPA Forecaster</button>
-        </div>
-
-        <div id="gpa-view" class="view-content">
-            <div class="grid">
-                <div class="glass-card">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div style="grid-column: span 2;">
-                            <label>Course Title</label>
-                            <input type="text" id="cName" placeholder="e.g. Artificial Intelligence">
-                        </div>
-                        <div>
-                            <label>Grade Point</label>
-                            <select id="cGrade">
-                                <option value="4.0">A+ / A (4.0)</option>
-                                <option value="3.7">A- (3.7)</option>
-                                <option value="3.3">B+ (3.3)</option>
-                                <option value="3.0">B (3.0)</option>
-                                <option value="2.7">B- (2.7)</option>
-                                <option value="2.3">C+ (2.3)</option>
-                                <option value="2.0">C (2.0)</option>
-                                <option value="0.0">F (0.0)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>Credit Hours</label>
-                            <input type="number" id="cCr" placeholder="3" min="1">
-                        </div>
-                    </div>
-                    <button class="btn-action" onclick="addCourse()">+ Add Course to Matrix</button>
-
-                    <div id="courseList" style="margin-top: 2rem; max-height: 300px; overflow-y: auto; padding-right: 5px;">
-                        </div>
-                </div>
-
-                <div class="glass-card" style="text-align: center;">
-                    <label>Real-time Statistics</label>
-                    <div class="result-circle">
-                        <div class="gpa-lbl">GPA</div>
-                        <div class="gpa-val" id="gpaOut">0.00</div>
-                    </div>
-                    <div id="gpaStatus" style="margin-top: 1.5rem; font-weight: 700; color: var(--secondary);">Waiting for data...</div>
-                    <button class="btn-action" style="background: rgba(255,255,255,0.05); color: var(--text-dim); box-shadow: none;" onclick="resetGPA()">Clear All</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="cgpa-view" class="view-content" style="display: none;">
-            <div class="grid">
-                <div class="glass-card">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div>
-                            <label>Semester GPA</label>
-                            <input type="number" id="semGpa" placeholder="3.80" step="0.01">
-                        </div>
-                        <div>
-                            <label>Total Credits</label>
-                            <input type="number" id="semCr" placeholder="18">
-                        </div>
-                    </div>
-                    <button class="btn-action" onclick="addSem()">Add Semester Block</button>
-                    <div id="semList" style="margin-top: 2rem;"></div>
-                </div>
-
-                <div class="glass-card" style="text-align: center;">
-                    <label>Cumulative Standing</label>
-                    <div class="result-circle" style="border-color: var(--secondary);">
-                        <div class="gpa-lbl">CGPA</div>
-                        <div class="gpa-val" id="cgpaOut">0.00</div>
-                    </div>
-                    <p id="cgpaStatus" style="margin-top: 1rem; color: var(--text-dim);"></p>
-                </div>
-            </div>
-        </div>
-
-        <footer class="footer">
-            <p style="color: var(--text-dim); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px;">ARCHITECTED BY</p>
-            <div class="dev-tag">SHOZI X SARIM</div>
-            <p style="color: var(--text-dim); font-size: 0.6rem; margin-top: 20px;">v4.0.2 Stable | &copy; 2026</p>
-        </footer>
+<div class="container">
+    <div class="header">
+        <h1>GPA Matrix Pro</h1>
     </div>
 
-    <script>
-        // CORE LOGIC & ERROR HANDLING
-        let courses = JSON.parse(localStorage.getItem('courses')) || [];
-        let semesters = JSON.parse(localStorage.getItem('semesters')) || [];
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('gpa', this)">Semester Calculator</button>
+        <button class="tab-btn" onclick="switchTab('cgpa', this)">CGPA Engine</button>
+    </div>
 
-        function switchTab(type, el) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('gpa-view').style.display = type === 'gpa' ? 'block' : 'none';
-            document.getElementById('cgpa-view').style.display = type === 'cgpa' ? 'block' : 'none';
-        }
-
-        // --- GPA CALCULATOR ---
-        function addCourse() {
-            const name = document.getElementById('cName').value || "Untagged Course";
-            const grade = parseFloat(document.getElementById('cGrade').value);
-            const cr = parseFloat(document.getElementById('cCr').value);
-
-            if(!cr || cr < 1 || cr > 10) { alert("Invalid Credit Hours!"); return; }
-
-            courses.push({ name, grade, cr });
-            localStorage.setItem('courses', JSON.stringify(courses));
-            renderGPA();
-            document.getElementById('cName').value = '';
-        }
-
-        function renderGPA() {
-            const list = document.getElementById('courseList');
-            list.innerHTML = courses.map((c, i) => `
-                <div class="list-item">
-                    <div>
-                        <div style="font-weight:700">${c.name}</div>
-                        <div style="font-size:0.75rem; color:var(--text-dim)">Grade: ${c.grade.toFixed(1)} | Units: ${c.cr}</div>
+    <div id="gpa-view">
+        <div class="grid">
+            <div class="card">
+                <div class="form-group">
+                    <label>Course Title</label>
+                    <input type="text" id="cName" placeholder="e.g. Data Structures">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Grade Points</label>
+                        <select id="cGrade">
+                            <option value="4.0">A+ / A (4.0)</option>
+                            <option value="3.7">A- (3.7)</option>
+                            <option value="3.3">B+ (3.3)</option>
+                            <option value="3.0">B (3.0)</option>
+                            <option value="2.7">B- (2.7)</option>
+                            <option value="2.0">C (2.0)</option>
+                            <option value="0.0">F (0.0)</option>
+                        </select>
                     </div>
-                    <div class="item-del" onclick="removeCourse(${i})">✕</div>
+                    <div class="form-group">
+                        <label>Credits</label>
+                        <input type="number" id="cCr" placeholder="3">
+                    </div>
                 </div>
-            `).join('');
+                <button class="btn" onclick="addCourse()">+ Add Course</button>
+                <div class="list-container" id="courseList"></div>
+            </div>
+            <div class="card result-box">
+                <label>Current Semester GPA</label>
+                <div class="score" id="gpaVal">0.00</div>
+                <div id="gpaMsg" style="color: var(--secondary); font-weight: 700;">No Data Loaded</div>
+            </div>
+        </div>
+    </div>
 
-            let totalPoints = 0, totalCr = 0;
-            courses.forEach(c => {
-                totalPoints += (c.grade * c.cr);
-                totalCr += c.cr;
-            });
-
-            const final = totalCr > 0 ? (totalPoints / totalCr).toFixed(2) : "0.00";
-            document.getElementById('gpaOut').innerText = final;
-            document.getElementById('gpaStatus').innerText = final >= 3.5 ? "🌟 DEAN'S LIST" : final >= 3.0 ? "🔥 EXCELLENT" : "📈 PERSISTENCE IS KEY";
-        }
-
-        function removeCourse(i) {
-            courses.splice(i, 1);
-            localStorage.setItem('courses', JSON.stringify(courses));
-            renderGPA();
-        }
-
-        function resetGPA() { 
-            if(confirm("Wipe all course data?")) {
-                courses = []; localStorage.removeItem('courses'); renderGPA(); 
-            }
-        }
-
-        // --- CGPA CALCULATOR (PRO LOGIC) ---
-        function addSem() {
-            const gpa = parseFloat(document.getElementById('semGpa').value);
-            const cr = parseFloat(document.getElementById('semCr').value);
-
-            if(isNaN(gpa) || gpa < 0 || gpa > 4 || isNaN(cr)) {
-                alert("Please enter valid GPA (0-4) and Credits!");
-                return;
-            }
-
-            semesters.push({ gpa, cr });
-            localStorage.setItem('semesters', JSON.stringify(semesters));
-            renderCGPA();
-            document.getElementById('semGpa').value = '';
-            document.getElementById('semCr').value = '';
-        }
-
-        function renderCGPA() {
-            const list = document.getElementById('semList');
-            list.innerHTML = semesters.map((s, i) => `
-                <div class="list-item" style="border-left-color: var(--primary)">
-                    <span>Sem ${i+1}: <b>${s.gpa.toFixed(2)}</b> GPA</span>
-                    <span class="item-del" onclick="removeSem(${i})">✕</span>
+    <div id="cgpa-view" style="display: none;">
+        <div class="grid">
+            <div class="card">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Semester GPA</label>
+                        <input type="number" id="semGpa" step="0.01" placeholder="3.80">
+                    </div>
+                    <div class="form-group">
+                        <label>Credits Earned</label>
+                        <input type="number" id="semCr" placeholder="18">
+                    </div>
                 </div>
-            `).join('');
+                <button class="btn" onclick="addSem()">Add Semester Data</button>
+                <div class="list-container" id="semList"></div>
+            </div>
+            <div class="card result-box">
+                <label>Total Cumulative CGPA</label>
+                <div class="score" id="cgpaVal" style="color: var(--secondary);">0.00</div>
+                <p id="cgpaMsg" style="color: var(--text-dim); font-size: 0.8rem;"></p>
+            </div>
+        </div>
+    </div>
+</div>
 
-            // Pro Calculation: Weighted by Credit Hours
-            let weightedSum = 0, totalCr = 0;
-            semesters.forEach(s => {
-                weightedSum += (s.gpa * s.cr);
-                totalCr += s.cr;
-            });
+<footer class="footer">
+    <div class="dev-branding">
+        <p style="font-size: 0.65rem; letter-spacing: 5px; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase;">Engineered By</p>
+        <div class="dev-title">SHOZI X SARIM</div>
+    </div>
+    <div class="insta-links">
+        <a href="https://instagram.com/msarim21" target="_blank" class="insta-tag">
+            <span>📸</span> @msarim21
+        </a>
+        <a href="https://instagram.com/shoziii.005" target="_blank" class="insta-tag">
+            <span>📸</span> @shoziii.005
+        </a>
+    </div>
+    <p style="font-size: 0.6rem; color: #444; margin-top: 25px;">&copy; 2026 Academic Codebot 4.0 | Official Release</p>
+</footer>
 
-            const cgpa = totalCr > 0 ? (weightedSum / totalCr).toFixed(2) : "0.00";
-            document.getElementById('cgpaOut').innerText = cgpa;
-            document.getElementById('cgpaStatus').innerText = `Aggregated over ${totalCr} total credits`;
-        }
+<script>
+    let courses = [], semesters = [];
 
-        function removeSem(i) {
-            semesters.splice(i, 1);
-            localStorage.setItem('semesters', JSON.stringify(semesters));
-            renderCGPA();
-        }
+    function switchTab(type, el) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('gpa-view').style.display = type === 'gpa' ? 'block' : 'none';
+        document.getElementById('cgpa-view').style.display = type === 'cgpa' ? 'block' : 'none';
+    }
 
-        // Init
+    function addCourse() {
+        const name = document.getElementById('cName').value || "Course";
+        const grade = parseFloat(document.getElementById('cGrade').value);
+        const cr = parseFloat(document.getElementById('cCr').value);
+        if(!cr) return alert("Enter credits");
+        courses.push({name, grade, cr});
         renderGPA();
+    }
+
+    function renderGPA() {
+        const list = document.getElementById('courseList');
+        list.innerHTML = courses.map((c, i) => `<div class="list-item"><span>${c.name} (${c.cr}Cr)</span><span onclick="courses.splice(${i},1);renderGPA();" style="color:#f43f5e; cursor:pointer">X</span></div>`).join('');
+        let pts = 0, tCr = 0;
+        courses.forEach(c => { pts += (c.grade * c.cr); tCr += c.cr; });
+        const res = tCr > 0 ? (pts / tCr).toFixed(2) : "0.00";
+        document.getElementById('gpaVal').innerText = res;
+        document.getElementById('gpaMsg').innerText = res >= 3.5 ? "EXCELLENT WORK" : "STAY FOCUSED";
+    }
+
+    // PRO CGPA LOGIC: Weighted Average Calculation
+    function addSem() {
+        const gpa = parseFloat(document.getElementById('semGpa').value);
+        const cr = parseFloat(document.getElementById('semCr').value);
+        if(!gpa || !cr) return alert("Fill all fields");
+        semesters.push({gpa, cr});
         renderCGPA();
-    </script>
+    }
+
+    function renderCGPA() {
+        const list = document.getElementById('semList');
+        list.innerHTML = semesters.map((s, i) => `<div class="list-item"><span>Semester ${i+1}: ${s.gpa}</span><span onclick="semesters.splice(${i},1);renderCGPA();" style="color:#f43f5e; cursor:pointer">X</span></div>`).join('');
+        
+        // PRO FIX: (GPA1*CR1 + GPA2*CR2) / (Total Credits)
+        let totalWeightedPoints = 0, totalCredits = 0;
+        semesters.forEach(s => {
+            totalWeightedPoints += (s.gpa * s.cr);
+            totalCredits += s.cr;
+        });
+
+        const finalCgpa = totalCredits > 0 ? (totalWeightedPoints / totalCredits).toFixed(2) : "0.00";
+        document.getElementById('cgpaVal').innerText = finalCgpa;
+        document.getElementById('cgpaMsg').innerText = `Weighted over ${totalCredits} Total Credits`;
+    }
+</script>
+
 </body>
 </html>
