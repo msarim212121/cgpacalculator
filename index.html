@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPA Matrix Pro | SHOZI X SARIM</title>
+    <title>CGPA CALCULATOR PRO | SHOZI X SARIM</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Outfit:wght@400;700;900&display=swap');
 
@@ -35,9 +35,11 @@
 
         .header { text-align: center; margin-bottom: 3rem; }
         h1 {
-            font-family: 'Outfit'; font-size: 3.5rem; font-weight: 900;
+            font-family: 'Outfit'; font-size: 3rem; font-weight: 900;
             background: linear-gradient(to bottom right, #fff, #6366f1);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+            text-transform: uppercase;
         }
 
         .tabs {
@@ -117,19 +119,19 @@
         
         .insta-icon { width: 20px; height: 20px; fill: currentColor; }
 
-        @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } .score { font-size: 4rem; } }
+        @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } .score { font-size: 4rem; } h1 { font-size: 2.2rem; } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>GPA Matrix Pro</h1>
+        <h1>CGPA CALCULATOR PRO</h1>
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('gpa', this)">Semester Calculator</button>
-        <button class="tab-btn" onclick="switchTab('cgpa', this)">CGPA Engine</button>
+        <button class="tab-btn active" onclick="switchTab('gpa', this)">Semester GPA</button>
+        <button class="tab-btn" onclick="switchTab('cgpa', this)">Final CGPA</button>
     </div>
 
     <div id="gpa-view">
@@ -137,11 +139,11 @@
             <div class="card">
                 <div class="form-group">
                     <label>Course Name</label>
-                    <input type="text" id="cName" placeholder="e.g. Programming Fundamentals">
+                    <input type="text" id="cName" placeholder="e.g. Artificial Intelligence">
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label>Grade</label>
+                        <label>Grade Point</label>
                         <select id="cGrade">
                             <option value="4.0">A+ / A (4.0)</option>
                             <option value="3.7">A- (3.7)</option>
@@ -157,13 +159,13 @@
                         <input type="number" id="cCr" placeholder="3">
                     </div>
                 </div>
-                <button class="btn" onclick="addCourse()">Execute Add</button>
+                <button class="btn" onclick="addCourse()">Add Course</button>
                 <div class="list-container" id="courseList"></div>
             </div>
             <div class="card result-box">
-                <label>Semester GPA</label>
+                <label>Semester Result</label>
                 <div class="score" id="gpaVal">0.00</div>
-                <div id="gpaMsg" style="color: var(--secondary); font-weight: 700; letter-spacing: 1px;">SYSTEM READY</div>
+                <div id="gpaMsg" style="color: var(--secondary); font-weight: 700; letter-spacing: 1px;">READY TO CALCULATE</div>
             </div>
         </div>
     </div>
@@ -173,11 +175,11 @@
             <div class="card">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label>GPA</label>
+                        <label>Sem GPA</label>
                         <input type="number" id="semGpa" step="0.01" placeholder="3.80">
                     </div>
                     <div class="form-group">
-                        <label>Credits</label>
+                        <label>Sem Credits</label>
                         <input type="number" id="semCr" placeholder="18">
                     </div>
                 </div>
@@ -185,7 +187,7 @@
                 <div class="list-container" id="semList"></div>
             </div>
             <div class="card result-box">
-                <label>Cumulative CGPA</label>
+                <label>Overall CGPA</label>
                 <div class="score" id="cgpaVal" style="color: var(--secondary);">0.00</div>
                 <p id="cgpaMsg" style="color: var(--text-dim); font-size: 0.8rem;"></p>
             </div>
@@ -195,7 +197,7 @@
 
 <footer class="footer">
     <div class="dev-branding">
-        <p style="font-size: 0.7rem; letter-spacing: 5px; color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase;">Engineered By</p>
+        <p style="font-size: 0.7rem; letter-spacing: 5px; color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase;">Developed By</p>
         <div class="dev-title">SHOZI X SARIM</div>
     </div>
     <div class="insta-links">
@@ -208,7 +210,7 @@
             shoziii.005
         </a>
     </div>
-    <p style="font-size: 0.6rem; color: #444; margin-top: 30px; letter-spacing: 2px;">V4.1 // SECURE ACADEMIC ARCHITECTURE</p>
+    <p style="font-size: 0.6rem; color: #444; margin-top: 30px; letter-spacing: 2px;">V4.2 // SECURE ACADEMIC ARCHITECTURE</p>
 </footer>
 
 <script>
@@ -225,7 +227,7 @@
         const name = document.getElementById('cName').value || "Course";
         const grade = parseFloat(document.getElementById('cGrade').value);
         const cr = parseFloat(document.getElementById('cCr').value);
-        if(!cr || cr < 0) return alert("Please enter valid Credit Hours");
+        if(!cr || cr <= 0) return alert("Enter valid credits");
         courses.push({name, grade, cr});
         renderGPA();
         document.getElementById('cName').value = "";
@@ -250,7 +252,7 @@
     function addSem() {
         const gpa = parseFloat(document.getElementById('semGpa').value);
         const cr = parseFloat(document.getElementById('semCr').value);
-        if(isNaN(gpa) || isNaN(cr) || gpa < 0 || gpa > 4) return alert("Enter valid GPA (0-4) and Credits");
+        if(isNaN(gpa) || isNaN(cr) || gpa < 0 || gpa > 4) return alert("Enter valid GPA and Credits");
         semesters.push({gpa, cr});
         renderCGPA();
         document.getElementById('semGpa').value = "";
@@ -265,7 +267,6 @@
                 <span onclick="semesters.splice(${i},1);renderCGPA();" style="color:#f43f5e; cursor:pointer; font-weight:800;">✕</span>
             </div>`).join('');
         
-        // PRO LOGIC: Weighted CGPA
         let totalWeightedPoints = 0, totalCredits = 0;
         semesters.forEach(s => {
             totalWeightedPoints += (s.gpa * s.cr);
@@ -274,7 +275,7 @@
 
         const finalCgpa = totalCredits > 0 ? (totalWeightedPoints / totalCredits).toFixed(2) : "0.00";
         document.getElementById('cgpaVal').innerText = finalCgpa;
-        document.getElementById('cgpaMsg').innerText = `Aggregated over ${totalCredits} Total Credits`;
+        document.getElementById('cgpaMsg').innerText = `Calculated over ${totalCredits} Total Credits`;
     }
 </script>
 
