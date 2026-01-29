@@ -22,8 +22,8 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: #020617;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 40%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -31,9 +31,8 @@
             align-items: center;
         }
 
-        .container { width: 100%; max-width: 1000px; padding: 2rem; }
+        .container { width: 100%; max-width: 1000px; padding: 2rem; flex-grow: 1; }
 
-        /* Branding */
         .header { text-align: center; margin-bottom: 3rem; }
         h1 {
             font-family: 'Outfit'; font-size: 3.5rem; font-weight: 900;
@@ -41,7 +40,6 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* Navigation */
         .tabs {
             display: flex; gap: 10px; background: var(--glass);
             padding: 5px; border-radius: 20px; border: 1px solid var(--glass-border);
@@ -51,18 +49,17 @@
             padding: 10px 25px; border-radius: 15px; cursor: pointer;
             transition: 0.3s; font-weight: 600; color: var(--text-dim); border: none; background: none;
         }
-        .tab-btn.active { background: white; color: #000; }
+        .tab-btn.active { background: white; color: #000; box-shadow: 0 4px 15px rgba(255,255,255,0.1); }
 
-        /* Main Content Grid */
         .grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; }
         .card {
             background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px);
             border-radius: 24px; border: 1px solid var(--glass-border); padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        /* Inputs */
         .form-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.7rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; text-transform: uppercase; }
+        label { display: block; font-size: 0.7rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
         input, select {
             width: 100%; padding: 12px; background: rgba(0,0,0,0.3);
             border: 1px solid var(--glass-border); border-radius: 12px;
@@ -74,41 +71,53 @@
             width: 100%; padding: 15px; border-radius: 12px; border: none;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white; font-weight: 800; cursor: pointer; transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 1px;
         }
-        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3); }
 
-        /* Result Visualization */
         .result-box {
             text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
             border-radius: 24px; border: 2px dashed var(--glass-border); height: 100%; min-height: 250px;
         }
         .score { font-family: 'Outfit'; font-size: 5rem; font-weight: 900; line-height: 1; margin: 10px 0; }
 
-        /* Dynamic List */
         .list-container { margin-top: 1.5rem; max-height: 200px; overflow-y: auto; }
         .list-item {
             background: rgba(255,255,255,0.03); padding: 10px 15px;
-            border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between;
+            border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid var(--glass-border);
         }
 
         /* FOOTER BRANDING */
         .footer {
-            margin-top: auto; width: 100%; padding: 3rem 0; text-align: center;
-            border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+            width: 100%; padding: 4rem 1rem; text-align: center;
+            border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.4);
+            margin-top: 4rem;
         }
-        .dev-branding { margin-bottom: 15px; }
+        .dev-branding { margin-bottom: 20px; }
         .dev-title {
-            font-family: 'Outfit'; font-size: 1.4rem; font-weight: 900;
-            letter-spacing: 3px; color: var(--primary); margin-bottom: 5px;
+            font-family: 'Outfit'; font-size: 1.8rem; font-weight: 900;
+            letter-spacing: 5px; color: var(--primary); margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
         }
-        .insta-links { display: flex; justify-content: center; gap: 20px; }
+        .insta-links { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
         .insta-tag {
-            color: var(--text-dim); text-decoration: none; font-size: 0.85rem;
-            transition: 0.3s; display: flex; align-items: center; gap: 5px;
+            color: var(--text-dim); text-decoration: none; font-size: 1rem;
+            transition: 0.3s; display: flex; align-items: center; gap: 10px;
+            padding: 10px 20px; background: rgba(255,255,255,0.05); border-radius: 100px;
+            border: 1px solid var(--glass-border); font-weight: 600;
         }
-        .insta-tag:hover { color: var(--secondary); transform: scale(1.05); }
+        .insta-tag:hover { 
+            color: white; 
+            border-color: var(--secondary);
+            background: rgba(6, 182, 212, 0.15);
+            transform: translateY(-5px); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .insta-icon { width: 20px; height: 20px; fill: currentColor; }
 
-        @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } .score { font-size: 4rem; } }
     </style>
 </head>
 <body>
@@ -127,12 +136,12 @@
         <div class="grid">
             <div class="card">
                 <div class="form-group">
-                    <label>Course Title</label>
-                    <input type="text" id="cName" placeholder="e.g. Data Structures">
+                    <label>Course Name</label>
+                    <input type="text" id="cName" placeholder="e.g. Programming Fundamentals">
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label>Grade Points</label>
+                        <label>Grade</label>
                         <select id="cGrade">
                             <option value="4.0">A+ / A (4.0)</option>
                             <option value="3.7">A- (3.7)</option>
@@ -148,13 +157,13 @@
                         <input type="number" id="cCr" placeholder="3">
                     </div>
                 </div>
-                <button class="btn" onclick="addCourse()">+ Add Course</button>
+                <button class="btn" onclick="addCourse()">Execute Add</button>
                 <div class="list-container" id="courseList"></div>
             </div>
             <div class="card result-box">
-                <label>Current Semester GPA</label>
+                <label>Semester GPA</label>
                 <div class="score" id="gpaVal">0.00</div>
-                <div id="gpaMsg" style="color: var(--secondary); font-weight: 700;">No Data Loaded</div>
+                <div id="gpaMsg" style="color: var(--secondary); font-weight: 700; letter-spacing: 1px;">SYSTEM READY</div>
             </div>
         </div>
     </div>
@@ -164,19 +173,19 @@
             <div class="card">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label>Semester GPA</label>
+                        <label>GPA</label>
                         <input type="number" id="semGpa" step="0.01" placeholder="3.80">
                     </div>
                     <div class="form-group">
-                        <label>Credits Earned</label>
+                        <label>Credits</label>
                         <input type="number" id="semCr" placeholder="18">
                     </div>
                 </div>
-                <button class="btn" onclick="addSem()">Add Semester Data</button>
+                <button class="btn" onclick="addSem()">Add Semester</button>
                 <div class="list-container" id="semList"></div>
             </div>
             <div class="card result-box">
-                <label>Total Cumulative CGPA</label>
+                <label>Cumulative CGPA</label>
                 <div class="score" id="cgpaVal" style="color: var(--secondary);">0.00</div>
                 <p id="cgpaMsg" style="color: var(--text-dim); font-size: 0.8rem;"></p>
             </div>
@@ -186,18 +195,20 @@
 
 <footer class="footer">
     <div class="dev-branding">
-        <p style="font-size: 0.65rem; letter-spacing: 5px; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase;">Engineered By</p>
+        <p style="font-size: 0.7rem; letter-spacing: 5px; color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase;">Engineered By</p>
         <div class="dev-title">SHOZI X SARIM</div>
     </div>
     <div class="insta-links">
         <a href="https://instagram.com/msarim21" target="_blank" class="insta-tag">
-            <span>📸</span> @msarim21
+            <svg class="insta-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            msarim21
         </a>
         <a href="https://instagram.com/shoziii.005" target="_blank" class="insta-tag">
-            <span>📸</span> @shoziii.005
+            <svg class="insta-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            shoziii.005
         </a>
     </div>
-    <p style="font-size: 0.6rem; color: #444; margin-top: 25px;">&copy; 2026 Academic Codebot 4.0 | Official Release</p>
+    <p style="font-size: 0.6rem; color: #444; margin-top: 30px; letter-spacing: 2px;">V4.1 // SECURE ACADEMIC ARCHITECTURE</p>
 </footer>
 
 <script>
@@ -214,35 +225,47 @@
         const name = document.getElementById('cName').value || "Course";
         const grade = parseFloat(document.getElementById('cGrade').value);
         const cr = parseFloat(document.getElementById('cCr').value);
-        if(!cr) return alert("Enter credits");
+        if(!cr || cr < 0) return alert("Please enter valid Credit Hours");
         courses.push({name, grade, cr});
         renderGPA();
+        document.getElementById('cName').value = "";
+        document.getElementById('cCr').value = "";
     }
 
     function renderGPA() {
         const list = document.getElementById('courseList');
-        list.innerHTML = courses.map((c, i) => `<div class="list-item"><span>${c.name} (${c.cr}Cr)</span><span onclick="courses.splice(${i},1);renderGPA();" style="color:#f43f5e; cursor:pointer">X</span></div>`).join('');
+        list.innerHTML = courses.map((c, i) => `
+            <div class="list-item">
+                <span>${c.name} (${c.cr}Cr)</span>
+                <span onclick="courses.splice(${i},1);renderGPA();" style="color:#f43f5e; cursor:pointer; font-weight:800;">✕</span>
+            </div>`).join('');
+        
         let pts = 0, tCr = 0;
         courses.forEach(c => { pts += (c.grade * c.cr); tCr += c.cr; });
         const res = tCr > 0 ? (pts / tCr).toFixed(2) : "0.00";
         document.getElementById('gpaVal').innerText = res;
-        document.getElementById('gpaMsg').innerText = res >= 3.5 ? "EXCELLENT WORK" : "STAY FOCUSED";
+        document.getElementById('gpaMsg').innerText = res >= 3.5 ? "PRIME STANDING" : "KEEP PUSHING";
     }
 
-    // PRO CGPA LOGIC: Weighted Average Calculation
     function addSem() {
         const gpa = parseFloat(document.getElementById('semGpa').value);
         const cr = parseFloat(document.getElementById('semCr').value);
-        if(!gpa || !cr) return alert("Fill all fields");
+        if(isNaN(gpa) || isNaN(cr) || gpa < 0 || gpa > 4) return alert("Enter valid GPA (0-4) and Credits");
         semesters.push({gpa, cr});
         renderCGPA();
+        document.getElementById('semGpa').value = "";
+        document.getElementById('semCr').value = "";
     }
 
     function renderCGPA() {
         const list = document.getElementById('semList');
-        list.innerHTML = semesters.map((s, i) => `<div class="list-item"><span>Semester ${i+1}: ${s.gpa}</span><span onclick="semesters.splice(${i},1);renderCGPA();" style="color:#f43f5e; cursor:pointer">X</span></div>`).join('');
+        list.innerHTML = semesters.map((s, i) => `
+            <div class="list-item">
+                <span>Semester ${i+1}: ${s.gpa.toFixed(2)}</span>
+                <span onclick="semesters.splice(${i},1);renderCGPA();" style="color:#f43f5e; cursor:pointer; font-weight:800;">✕</span>
+            </div>`).join('');
         
-        // PRO FIX: (GPA1*CR1 + GPA2*CR2) / (Total Credits)
+        // PRO LOGIC: Weighted CGPA
         let totalWeightedPoints = 0, totalCredits = 0;
         semesters.forEach(s => {
             totalWeightedPoints += (s.gpa * s.cr);
@@ -251,7 +274,7 @@
 
         const finalCgpa = totalCredits > 0 ? (totalWeightedPoints / totalCredits).toFixed(2) : "0.00";
         document.getElementById('cgpaVal').innerText = finalCgpa;
-        document.getElementById('cgpaMsg').innerText = `Weighted over ${totalCredits} Total Credits`;
+        document.getElementById('cgpaMsg').innerText = `Aggregated over ${totalCredits} Total Credits`;
     }
 </script>
 
